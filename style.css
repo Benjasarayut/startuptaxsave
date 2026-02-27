@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Prompt', sans-serif;
+}
+
+body {
+    background: #eef2eb; 
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    color: #333;
+}
+
+.container {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 650px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+}
+
+.text-green { color: #32804f; }
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    color: #32804f;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: #666;
+    font-size: 15px;
+}
+
+label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #444;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+    background: #fdfdfd;
+}
+
+input:focus, select:focus {
+    border-color: #32804f;
+    box-shadow: 0 0 0 3px rgba(50, 128, 79, 0.1);
+}
+
+.search-section { margin-bottom: 25px; }
+
+.search-box {
+    display: flex;
+    gap: 10px;
+}
+
+.search-box button {
+    background: #32804f;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+.search-box button:hover { background: #235c38; }
+
+.hidden { display: none !important; }
+
+.data-section {
+    background: #fafafa;
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid #eee;
+    margin-bottom: 25px;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.section-title h3 {
+    font-size: 18px;
+    color: #333;
+}
+
+.badge {
+    background: #fdf2d0;
+    color: #856404;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-analyze {
+    width: 100%;
+    background: #449c63;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(68, 156, 99, 0.2);
+}
+
+.btn-analyze:hover {
+    background: #32804f;
+    transform: translateY(-2px);
+}
+
+.result-section { animation: fadeIn 0.5s ease; }
+
+.result-title {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.current-tax-box {
+    text-align: center;
+    padding: 20px;
+    background: white;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+.current-tax-box p {
+    color: #666;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.current-tax-box h2 {
+    color: #d32f2f;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.ai-recommendation {
+    background: #eef8f2;
+    border: 1px solid #c3e6cf;
+    border-left: 6px solid #32804f;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.ai-recommendation h3 {
+    color: #1e5231;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ai-recommendation p {
+    color: #27693f;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.btn-package {
+    margin-top: 15px;
+    width: 100%;
+    background: #32804f;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-package:hover { background: #235c38; }
+
+.chart-container {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #eee;
+}

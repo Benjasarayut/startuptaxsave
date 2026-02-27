@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaxSave.AI - ระบบ AI วิเคราะห์ภาษีที่ดิน</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1><i class="fa-solid fa-leaf text-green"></i> TaxSave.AI</h1>
+        <p>ระบบ AI วิเคราะห์และวางแผนลดหย่อนภาษีที่ดิน</p>
+    </div>
+
+    <div class="search-section">
+        <label>ค้นหาจากเลขโฉนด หรือ พิกัดที่ดิน</label>
+        <div class="search-box">
+            <input type="text" id="landId" placeholder="เช่น 8899 หรือ ปักหมุดเชียงใหม่..." value="โฉนดเลขที่ 8899 (เชียงใหม่)">
+            <button id="searchBtn" onclick="mockFetchData()"><i class="fa-solid fa-magnifying-glass"></i> ค้นหา</button>
+        </div>
+    </div>
+
+    <div id="assessmentData" class="data-section hidden">
+        <div class="section-title">
+            <h3>Assessment Data</h3>
+            <span class="badge"><i class="fa-solid fa-bolt"></i> ไฟ AI วิเคราะห์ความคุ้มค่า</span>
+        </div>
+        
+        <div class="grid-2">
+            <div>
+                <label>การใช้ประโยชน์ปัจจุบัน</label>
+                <select id="type">
+                    <option value="commercial">ที่ดินรกร้างว่างเปล่า / พาณิชย์ (0.3%)</option>
+                    <option value="residential">ที่อยู่อาศัย หลังที่ 2 (0.02%)</option>
+                    <option value="agriculture">เกษตรกรรม (0.01%)</option>
+                </select>
+            </div>
+            <div>
+                <label>ราคาประเมินทุนทรัพย์ (บาท)</label>
+                <input type="number" id="value" value="5000000">
+            </div>
+        </div>
+
+        <button class="btn-analyze" onclick="calculateTax()"><i class="fa-solid fa-lightbulb"></i> AI Analysis Assessment</button>
+    </div>
+
+    <div id="results" class="result-section hidden">
+        <h3 class="result-title">Result</h3>
+        
+        <div class="current-tax-box">
+            <p>ภาษีที่คุณต้องจ่ายในปัจจุบัน</p>
+            <h2 id="currentTaxAmount">0 บาท/ปี</h2>
+        </div>
+
+        <div class="ai-recommendation" id="aiBox">
+            <h3><i class="fa-regular fa-lightbulb"></i> AI Recommendation</h3>
+            <p id="aiMessage"></p>
+            <button class="btn-package">ดูแพ็กเกจปรับปรุงที่ดินเกษตรกรรม</button>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="taxChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
