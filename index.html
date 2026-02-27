@@ -21,7 +21,7 @@
     <div class="search-section">
         <label>ค้นหาจากเลขโฉนด หรือ พิกัดที่ดิน</label>
         <div class="search-box">
-            <input type="text" id="landId" placeholder="เช่น 8899 หรือ ปักหมุดเชียงใหม่..." value="โฉนดเลขที่ 8899 (เชียงใหม่)">
+            <input type="text" id="landId" placeholder="ลองพิมพ์ 8899 (เอกชน), 9999 (รัฐ), 7777 (เวนคืน)">
             <button id="searchBtn" onclick="mockFetchData()"><i class="fa-solid fa-magnifying-glass"></i> ค้นหา</button>
         </div>
     </div>
@@ -29,9 +29,23 @@
     <div id="assessmentData" class="data-section hidden">
         <div class="section-title">
             <h3>Assessment Data</h3>
-            <span class="badge"><i class="fa-solid fa-bolt"></i> ไฟ AI วิเคราะห์ความคุ้มค่า</span>
+            <span class="badge"><i class="fa-solid fa-bolt"></i> ไฟ AI ดึงข้อมูลและวิเคราะห์</span>
+        </div>
+
+        <div class="ownership-info" id="ownershipBox">
+            <div class="owner-header">
+                <label style="margin: 0;"><i class="fa-solid fa-user-shield text-green"></i> ข้อมูลผู้ถือกรรมสิทธิ์</label>
+                <span id="ownerTypeBadge" class="badge-private">เอกชน</span>
+            </div>
+            <p id="ownerName" class="owner-name">นาย สมมติ รักษ์ที่ดิน</p>
+            <p id="ownerNote" class="owner-note hidden"></p>
         </div>
         
+        <div class="form-group">
+            <label><i class="fa-solid fa-map-location-dot text-green"></i> ที่ตั้งทรัพย์สิน (Location)</label>
+            <input type="text" id="location" readonly>
+        </div>
+
         <div class="grid-2">
             <div>
                 <label>การใช้ประโยชน์ปัจจุบัน</label>
@@ -47,7 +61,7 @@
             </div>
         </div>
 
-        <button class="btn-analyze" onclick="calculateTax()"><i class="fa-solid fa-lightbulb"></i> AI Analysis Assessment</button>
+        <button class="btn-analyze" id="analyzeBtn" onclick="calculateTax()"><i class="fa-solid fa-lightbulb"></i> AI Analysis Assessment</button>
     </div>
 
     <div id="results" class="result-section hidden">

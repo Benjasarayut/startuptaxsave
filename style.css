@@ -67,6 +67,12 @@ input:focus, select:focus {
     box-shadow: 0 0 0 3px rgba(50, 128, 79, 0.1);
 }
 
+input[readonly] {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    cursor: not-allowed;
+}
+
 .search-section { margin-bottom: 25px; }
 
 .search-box {
@@ -127,6 +133,63 @@ input:focus, select:focus {
     font-weight: 600;
 }
 
+/* ส่วนของกล่องข้อมูลกรรมสิทธิ์ */
+.ownership-info {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.owner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #e5e7eb;
+}
+
+.owner-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.badge-private {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+.badge-state {
+    background: #fee2e2;
+    color: #b91c1c;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #f87171;
+}
+
+.owner-note {
+    font-size: 13px;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    border-left: 4px solid;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
 .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -148,9 +211,14 @@ input:focus, select:focus {
     box-shadow: 0 4px 15px rgba(68, 156, 99, 0.2);
 }
 
-.btn-analyze:hover {
+.btn-analyze:hover:not(:disabled) {
     background: #32804f;
     transform: translateY(-2px);
+}
+
+.btn-analyze:disabled {
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 .result-section { animation: fadeIn 0.5s ease; }
