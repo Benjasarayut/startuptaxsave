@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaxSave.AI - ระบบ AI วิเคราะห์ภาษีที่ดิน</title>
-    
+    <title>TaxSave.AI - Premium Land Intelligence Platform</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,67 +13,76 @@
 <div class="container">
     <div class="header">
         <h1><i class="fa-solid fa-leaf text-green"></i> TaxSave.AI</h1>
-        <p>ระบบ AI วิเคราะห์และวางแผนลดหย่อนภาษีที่ดิน</p>
+        <p>AI-Driven Tax Strategy & Exclusive Land Matching</p>
     </div>
 
     <div class="search-section">
-        <label>ค้นหาจากเลขโฉนด หรือ พิกัดที่ดิน</label>
+        <label>ค้นหาโฉนดและระบุขนาดที่ต้องการ</label>
         <div class="search-box">
-            <input type="text" id="landId" placeholder="ลองพิมพ์ 8899 (เอกชน), 9999 (รัฐ), 7777 (เวนคืน)">
+            <input type="text" id="landId" placeholder="เลขโฉนด (8899, 1234, 7777, 9999)" style="flex: 1.5;">
+            <input type="number" id="targetArea" placeholder="จำนวนไร่" style="flex: 1;">
             <button id="searchBtn" onclick="mockFetchData()"><i class="fa-solid fa-magnifying-glass"></i> ค้นหา</button>
         </div>
     </div>
 
     <div id="assessmentData" class="data-section hidden">
         <div class="section-title">
-            <h3>Assessment Data</h3>
-            <span class="badge"><i class="fa-solid fa-bolt"></i> ไฟ AI ดึงข้อมูลและวิเคราะห์</span>
+            <h3>ข้อมูลการตรวจสอบเชิงลึก</h3>
+            <span class="badge"><i class="fa-solid fa-check-double"></i> AI Match Verified</span>
         </div>
 
         <div class="ownership-info" id="ownershipBox">
             <div class="owner-header">
-                <label style="margin: 0;"><i class="fa-solid fa-user-shield text-green"></i> ข้อมูลผู้ถือกรรมสิทธิ์</label>
+                <label style="margin: 0;"><i class="fa-solid fa-id-card text-green"></i> กรรมสิทธิ์และสถานะ</label>
                 <span id="ownerTypeBadge" class="badge-private">เอกชน</span>
             </div>
-            <p id="ownerName" class="owner-name">นาย สมมติ รักษ์ที่ดิน</p>
+            <p id="ownerName" class="owner-name">-</p>
             <p id="ownerNote" class="owner-note hidden"></p>
         </div>
         
         <div class="form-group">
-            <label><i class="fa-solid fa-map-location-dot text-green"></i> ที่ตั้งทรัพย์สิน (Location)</label>
-            <input type="text" id="location" readonly>
+            <label><i class="fa-solid fa-map-marked-alt text-green"></i> ที่ตั้งและขนาดพื้นที่</label>
+            <input type="text" id="locationDisplay" readonly>
         </div>
 
         <div class="grid-2">
-            <div>
-                <label>การใช้ประโยชน์ปัจจุบัน</label>
+            <div class="form-group">
+                <label>ประเภทการใช้งาน</label>
                 <select id="type">
-                    <option value="commercial">ที่ดินรกร้างว่างเปล่า / พาณิชย์ (0.3%)</option>
-                    <option value="residential">ที่อยู่อาศัย หลังที่ 2 (0.02%)</option>
+                    <option value="commercial">รกร้าง / พาณิชย์ (0.3%)</option>
+                    <option value="residential">ที่อยู่อาศัย (0.02%)</option>
                     <option value="agriculture">เกษตรกรรม (0.01%)</option>
                 </select>
             </div>
-            <div>
-                <label>ราคาประเมินทุนทรัพย์ (บาท)</label>
-                <input type="number" id="value" value="5000000">
+            <div class="form-group">
+                <label>ราคาประเมินรวม (บาท)</label>
+                <input type="number" id="landValue">
             </div>
         </div>
-
-        <button class="btn-analyze" id="analyzeBtn" onclick="calculateTax()"><i class="fa-solid fa-lightbulb"></i> AI Analysis Assessment</button>
+        <button class="btn-analyze" id="analyzeBtn" onclick="calculateTax()"><i class="fa-solid fa-chart-line"></i> วิเคราะห์กลยุทธ์</button>
     </div>
 
     <div id="results" class="result-section hidden">
-        <h3 class="result-title">Result</h3>
-        
         <div class="current-tax-box">
-            <p>ภาษีที่คุณต้องจ่ายในปัจจุบัน</p>
+            <p>ภาระภาษีปัจจุบัน</p>
             <h2 id="currentTaxAmount">0 บาท/ปี</h2>
         </div>
 
         <div class="ai-recommendation" id="aiBox">
-            <h3><i class="fa-regular fa-lightbulb"></i> AI Recommendation</h3>
+            <h3><i class="fa-solid fa-wand-magic-sparkles"></i> AI Optimization Advice</h3>
             <p id="aiMessage"></p>
-            <button class="btn-package">ดูแพ็กเกจปรับปรุงที่ดินเกษตรกรรม</button>
+            <button class="btn-package" onclick="openModal('packageModal')">จ้างพาร์ทเนอร์ปลูกป่าเศรษฐกิจ/เกษตร</button>
+        </div>
+
+        <div id="exitStrategy" class="exit-strategy hidden">
+            <div class="exit-content">
+                <i class="fa-solid fa-handshake-angle exit-icon"></i>
+                <div class="exit-text">
+                    <h4>เปลี่ยนภาระเป็นโอกาสขาย?</h4>
+                    <p>ส่งข้อมูลให้นักลงทุน B2B ในเครือข่ายของเรา</p>
+                </div>
+            </div>
+            <button class="btn-sell" onclick="openModal('investorModal')">Sell to Investor (Exclusive Matching)</button>
         </div>
 
         <div class="chart-container">
@@ -84,7 +91,43 @@
     </div>
 </div>
 
-<script src="script.js"></script>
+<div id="packageModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('packageModal')">&times;</span>
+        <h3><i class="fa-solid fa-users-gear"></i> เลือกพาร์ทเนอร์บริหารจัดการ</h3>
+        <p style="margin-bottom: 20px; font-size: 14px;">เราคัดเลือกพาร์ทเนอร์ที่เชี่ยวชาญในพื้นที่เชียงใหม่มาให้คุณแล้ว</p>
+        <div class="partner-list">
+            <div class="partner-item" onclick="confirmPartner('GreenTech Farming')">
+                <div class="partner-info">
+                    <strong>GreenTech Farming</strong>
+                    <span>ผู้เชี่ยวชาญการปลูกป่าเศรษฐกิจ (กฤษณา, พะยูง)</span>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            <div class="partner-item" onclick="confirmPartner('Smart Ag Solutions')">
+                <div class="partner-info">
+                    <strong>Smart Ag Solutions</strong>
+                    <span>รับวางระบบฟาร์มอัจฉริยะและปลูกพืชระยะสั้น</span>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div id="investorModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('investorModal')">&times;</span>
+        <h3><i class="fa-solid fa-rocket"></i> ยืนยันการส่งข้อมูลให้นักลงทุน</h3>
+        <div class="investor-form">
+            <p>ระบบจะส่งเลขโฉนดและพิกัดที่ดินของคุณไปยัง <strong>B2B Investor Board</strong> ของเรา</p>
+            <label style="margin-top: 15px;">เบอร์โทรศัพท์ติดต่อกลับ</label>
+            <input type="text" id="investorPhone" placeholder="0xx-xxx-xxxx">
+            <button class="btn-sell" style="margin-top: 20px;" onclick="submitToInvestor()">ส่งข้อมูลดีลลับ (VIP)</button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
