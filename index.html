@@ -3,128 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaxSave.AI - Premium Land Intelligence Platform</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>TaxSave.AI - Premium Property & AI Simulator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <h1><i class="fa-solid fa-leaf text-green"></i> TaxSave.AI</h1>
-        <p>AI-Driven Tax Strategy & Exclusive Land Matching</p>
+<nav class="navbar">
+    <div class="nav-left">
+        <h2><i class="fa-solid fa-layer-group text-accent"></i> TaxSave<span style="font-size: 14px; font-weight: normal; margin-left: 5px; color: #64748b;">เอ็นจิ้น</span></h2>
     </div>
-
-    <div class="search-section">
-        <label>ค้นหาโฉนดและระบุขนาดที่ต้องการ</label>
-        <div class="search-box">
-            <input type="text" id="landId" placeholder="เลขโฉนด (8899, 1234, 7777, 9999)" style="flex: 1.5;">
-            <input type="number" id="targetArea" placeholder="จำนวนไร่" style="flex: 1;">
-            <button id="searchBtn" onclick="mockFetchData()"><i class="fa-solid fa-magnifying-glass"></i> ค้นหา</button>
-        </div>
+    <div class="nav-right">
+        <div class="nav-btn"><i class="fa-solid fa-plus"></i><br>ลงขาย</div>
+        <div class="nav-btn"><i class="fa-solid fa-bars"></i><br>เมนู</div>
     </div>
+</nav>
 
-    <div id="assessmentData" class="data-section hidden">
-        <div class="section-title">
-            <h3>ข้อมูลการตรวจสอบเชิงลึก</h3>
-            <span class="badge"><i class="fa-solid fa-check-double"></i> AI Match Verified</span>
-        </div>
-
-        <div class="ownership-info" id="ownershipBox">
-            <div class="owner-header">
-                <label style="margin: 0;"><i class="fa-solid fa-id-card text-green"></i> กรรมสิทธิ์และสถานะ</label>
-                <span id="ownerTypeBadge" class="badge-private">เอกชน</span>
-            </div>
-            <p id="ownerName" class="owner-name">-</p>
-            <p id="ownerNote" class="owner-note hidden"></p>
-        </div>
+<div id="consentScreen" class="consent-wrapper">
+    <div class="consent-card" style="max-width: 550px;">
+        <i class="fa-solid fa-shield-halved" style="font-size: 40px; color: #10b981; margin-bottom: 15px;"></i>
+        <h2>ข้อตกลงและนโยบายความเป็นส่วนตัว</h2>
         
-        <div class="form-group">
-            <label><i class="fa-solid fa-map-marked-alt text-green"></i> ที่ตั้งและขนาดพื้นที่</label>
-            <input type="text" id="locationDisplay" readonly>
+        <div class="terms-box">
+            <p><i class="fa-solid fa-scale-balanced"></i> ข้อตกลงการใช้งาน (Terms of Use):</p>
+            <ul>
+                <li>ข้อมูลผังเมือง, การจำลอง 3D Massing, และแนวเวนคืน เป็นเพียงการประเมินเบื้องต้น (Pre-feasibility) เพื่อประกอบการตัดสินใจทางธุรกิจเท่านั้น ไม่สามารถใช้เป็นหลักฐานอ้างอิงทางกฎหมายได้</li>
+                <li>ระบบประมวลผลผ่านการเชื่อมต่อ API ของหน่วยงานรัฐ ผู้ใช้งานควรตรวจสอบโฉนดจริงกับกรมที่ดินและกรมโยธาธิการฯ อีกครั้งก่อนทำธุรกรรมซื้อขาย</li>
+            </ul>
+            <p style="margin-top: 10px;"><i class="fa-solid fa-lock"></i> นโยบายข้อมูลส่วนบุคคล (PDPA):</p>
+            <ul>
+                <li>TaxSave.AI จะเก็บรักษาข้อมูลพิกัดและเลขโฉนดของท่านเป็นความลับอย่างสูงสุด</li>
+                <li>หากท่านเลือก "ส่งขาย B2B" ข้อมูลจะถูกเปิดเผยเฉพาะกับเครือข่ายนักลงทุน VIP ที่ผ่านการยืนยันตัวตน (KYC) แล้วเท่านั้น</li>
+            </ul>
         </div>
 
-        <div class="grid-2">
-            <div class="form-group">
-                <label>ประเภทการใช้งาน</label>
-                <select id="type">
-                    <option value="commercial">รกร้าง / พาณิชย์ (0.3%)</option>
-                    <option value="residential">ที่อยู่อาศัย (0.02%)</option>
-                    <option value="agriculture">เกษตรกรรม (0.01%)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>ราคาประเมินรวม (บาท)</label>
-                <input type="number" id="landValue">
-            </div>
+        <div style="text-align: left; margin-bottom: 20px;">
+            <label class="custom-checkbox"><input type="checkbox" id="consentPolicy" onchange="validateConsent()"><span class="checkmark"></span>(บังคับ) ข้าพเจ้าได้อ่านและยอมรับข้อตกลงการใช้งานและนโยบาย PDPA</label>
+            <label class="custom-checkbox"><input type="checkbox" id="consentData" checked><span class="checkmark"></span>(ทางเลือก) ยินยอมให้ AI เข้าถึงฐานข้อมูล GIS และตรวจสอบแนวเวนคืน</label>
         </div>
-        <button class="btn-analyze" id="analyzeBtn" onclick="calculateTax()"><i class="fa-solid fa-chart-line"></i> วิเคราะห์กลยุทธ์</button>
-    </div>
-
-    <div id="results" class="result-section hidden">
-        <div class="current-tax-box">
-            <p>ภาระภาษีปัจจุบัน</p>
-            <h2 id="currentTaxAmount">0 บาท/ปี</h2>
-        </div>
-
-        <div class="ai-recommendation" id="aiBox">
-            <h3><i class="fa-solid fa-wand-magic-sparkles"></i> AI Optimization Advice</h3>
-            <p id="aiMessage"></p>
-            <button class="btn-package" onclick="openModal('packageModal')">จ้างพาร์ทเนอร์ปลูกป่าเศรษฐกิจ/เกษตร</button>
-        </div>
-
-        <div id="exitStrategy" class="exit-strategy hidden">
-            <div class="exit-content">
-                <i class="fa-solid fa-handshake-angle exit-icon"></i>
-                <div class="exit-text">
-                    <h4>เปลี่ยนภาระเป็นโอกาสขาย?</h4>
-                    <p>ส่งข้อมูลให้นักลงทุน B2B ในเครือข่ายของเรา</p>
-                </div>
-            </div>
-            <button class="btn-sell" onclick="openModal('investorModal')">Sell to Investor (Exclusive Matching)</button>
-        </div>
-
-        <div class="chart-container">
-            <canvas id="taxChart"></canvas>
-        </div>
+        <button id="btnAccept" class="btn-primary" disabled onclick="enterApp()">ยอมรับและเข้าสู่ระบบ</button>
     </div>
 </div>
 
-<div id="packageModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('packageModal')">&times;</span>
-        <h3><i class="fa-solid fa-users-gear"></i> เลือกพาร์ทเนอร์บริหารจัดการ</h3>
-        <p style="margin-bottom: 20px; font-size: 14px;">เราคัดเลือกพาร์ทเนอร์ที่เชี่ยวชาญในพื้นที่เชียงใหม่มาให้คุณแล้ว</p>
-        <div class="partner-list">
-            <div class="partner-item" onclick="confirmPartner('GreenTech Farming')">
-                <div class="partner-info">
-                    <strong>GreenTech Farming</strong>
-                    <span>ผู้เชี่ยวชาญการปลูกป่าเศรษฐกิจ (กฤษณา, พะยูง)</span>
-                </div>
-                <i class="fa-solid fa-chevron-right"></i>
+<div id="mainApp" class="container hidden">
+    
+    <div class="hero-search-wrapper">
+        <div class="search-widget-premium">
+            <div class="search-tabs">
+                <button class="tab-btn">เช่า</button>
+                <button class="tab-btn active">ขาย</button>
             </div>
-            <div class="partner-item" onclick="confirmPartner('Smart Ag Solutions')">
-                <div class="partner-info">
-                    <strong>Smart Ag Solutions</strong>
-                    <span>รับวางระบบฟาร์มอัจฉริยะและปลูกพืชระยะสั้น</span>
-                </div>
-                <i class="fa-solid fa-chevron-right"></i>
+            
+            <div class="search-input-row">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="landId" placeholder="ค้นหา ทำเล, จังหวัด (พิมพ์ 8899, 1234, หรือ 7777 เพื่อดูแนวเวนคืน)">
             </div>
+            
+            <div class="search-filters-row">
+                <div class="filter-dropdown"><span>ประเภทที่ดิน</span><i class="fa-solid fa-chevron-down"></i></div>
+                <div class="filter-dropdown justify-center"><span><i class="fa-solid fa-train-subway"></i> ใกล้รถไฟฟ้า</span></div>
+                <div class="filter-dropdown justify-center"><span><i class="fa-solid fa-bars-staggered"></i> กรองเพิ่มเติม</span></div>
+            </div>
+
+            <button class="btn-search-main" onclick="runSimulatorFromHero()">
+                <i class="fa-solid fa-microchip"></i> ค้นหาและวิเคราะห์ด้วย AI
+            </button>
         </div>
     </div>
-</div>
+    
+    <div id="resultsLayout" class="layout-grid hidden">
+        
+        <div class="main-column">
+            <div class="property-header">
+                <h1 id="propTitle">ข้อมูลที่ดินจากการประมวลผล AI</h1>
+                <div class="price-section">
+                    <h2 id="propPrice" class="text-navy">0 บาท</h2>
+                    <div class="action-icons">
+                        <span><i class="fa-regular fa-heart"></i> บันทึก</span>
+                        <span><i class="fa-solid fa-share"></i> แชร์</span>
+                    </div>
+                </div>
+            </div>
 
-<div id="investorModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('investorModal')">&times;</span>
-        <h3><i class="fa-solid fa-rocket"></i> ยืนยันการส่งข้อมูลให้นักลงทุน</h3>
-        <div class="investor-form">
-            <p>ระบบจะส่งเลขโฉนดและพิกัดที่ดินของคุณไปยัง <strong>B2B Investor Board</strong> ของเรา</p>
-            <label style="margin-top: 15px;">เบอร์โทรศัพท์ติดต่อกลับ</label>
-            <input type="text" id="investorPhone" placeholder="0xx-xxx-xxxx">
-            <button class="btn-sell" style="margin-top: 20px;" onclick="submitToInvestor()">ส่งข้อมูลดีลลับ (VIP)</button>
+            <div class="gallery-section">
+                <div class="img-main">
+                    <div class="map-overlay">
+                        <i class="fa-solid fa-location-dot" style="color: #ef4444; font-size: 28px;"></i>
+                        <div id="mapPinLabel">พิกัดโฉนด</div>
+                    </div>
+                </div>
+                <div class="img-sub img-sub-1"></div>
+                <div class="img-sub img-sub-2"></div>
+            </div>
+
+            <div class="property-description-card">
+                <h3 class="desc-title">รายละเอียด</h3>
+                <div class="desc-content" id="propDescription">
+                    </div>
+            </div>
+
+            <div class="section-title"><i class="fa-solid fa-cube text-accent"></i> AI Land-Use Simulator (Pre-feasibility)</div>
+            <div class="ai-simulator-grid">
+                <div class="sim-card massing-card">
+                    <i class="fa-solid fa-cubes text-navy" style="font-size: 40px; margin-bottom: 10px;"></i>
+                    <div id="maxEnvelope" class="badge-blue">-</div>
+                    <span style="color: #64748b; font-size: 13px; margin-top: 5px;">Generative Massing</span>
+                </div>
+                <div class="sim-card ai-data-card">
+                    <div class="data-row"><span>FAR / OSR</span><strong id="simFarOsr">-</strong></div>
+                    <div class="data-row"><span>Est. ROI (Yield)</span><strong id="simRoi" class="text-accent">-</strong></div>
+                    <div class="data-row" style="border:none; flex-direction: column; align-items: flex-start;">
+                        <span style="margin-bottom: 8px; font-weight: 600;">Usage Feasibility (สร้างอะไรได้บ้าง)</span>
+                        <ul id="simFeasibility" class="feas-list"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title"><i class="fa-solid fa-calculator text-navy"></i> เครื่องคิดเลขภาษี & ทางออก (Exit Strategy)</div>
+            <div class="calculator-container">
+                <div class="calc-inputs">
+                    <div class="calc-row">
+                        <label>ราคาประเมิน:</label>
+                        <div class="calc-input-wrap"><input type="text" id="calcBasePrice" readonly><span>฿</span></div>
+                    </div>
+                    <div class="calc-row">
+                        <label>ภาษีรกร้าง (0.3%):</label>
+                        <div class="calc-input-wrap"><input type="text" id="calcHoldingTax" class="text-red" readonly><span>฿/ปี</span></div>
+                    </div>
+                    <div class="calc-row" style="margin-top: 20px;">
+                        <label style="font-weight: 600; color: #0f172a; width: 100%;">ระยะเวลาถือครอง:</label>
+                        <div class="radio-group">
+                            <label class="radio-label"><input type="radio" name="holdPeriod" value="under5" checked onchange="calculateExitTax()"> ต่ำกว่า 5 ปี</label>
+                            <label class="radio-label"><input type="radio" name="holdPeriod" value="over5" onchange="calculateExitTax()"> 5 ปีขึ้นไป</label>
+                        </div>
+                    </div>
+                    <div class="calc-buttons">
+                        <button class="btn-green" onclick="alert('รับเรื่องจ้างทำเกษตรลดภาษีเรียบร้อยครับ!')"><i class="fa-solid fa-leaf"></i> จ้างปลูกป่า</button>
+                        <button class="btn-navy" onclick="alert('ส่งดีลให้นักลงทุน B2B แล้ว!')"><i class="fa-solid fa-handshake"></i> ส่งขาย B2B</button>
+                    </div>
+                </div>
+                
+                <div class="calc-results">
+                    <div class="circle-chart">
+                        <div class="circle-inner">
+                            <span style="font-size: 12px; color: #64748b;">ภาษีขายที่ดิน</span>
+                            <strong id="chartTaxLabel" class="text-red" style="font-size: 18px; margin: 2px 0;">0</strong>
+                            <span style="font-size: 12px; color: #64748b;">บาท</span>
+                        </div>
+                    </div>
+                    <div class="result-details">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center;">
+                            <span style="font-weight:700; font-size: 15px;">สรุปผลกำไรสุทธิ</span>
+                        </div>
+                        <ul class="result-list">
+                            <li><span class="dot" style="background: #94a3b8;"></span> ราคาขาย: <strong id="resBasePrice">0 ฿</strong></li>
+                            <li><span class="dot" style="background: #ef4444;" id="dotColor"></span> <span id="resTaxName">ภาษี (3.3%)</span>: <strong id="resTaxAmount" class="text-red">0 ฿</strong></li>
+                        </ul>
+                        <div class="net-total">เงินสุทธิ: <strong id="resNetPrice" class="text-accent" style="font-size: 16px;">0 ฿</strong></div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <div class="sidebar-column">
+            
+            <div class="sidebar-card quick-info-card">
+                <h3 class="sidebar-title">ข้อมูลโฉนดเบื้องต้น</h3>
+                <div class="info-row"><span><i class="fa-solid fa-user"></i> กรรมสิทธิ์</span> <strong id="propOwner">-</strong></div>
+                <div class="info-row"><span><i class="fa-solid fa-vector-square"></i> พื้นที่</span> <strong id="propArea">-</strong></div>
+                <div class="info-row"><span><i class="fa-solid fa-palette"></i> ผังเมือง</span> <strong id="propZone">-</strong></div>
+                <div class="info-row" style="border:none;"><span><i class="fa-solid fa-location-dot"></i> ที่อยู่</span> <strong id="propLocation">-</strong></div>
+                
+                <div class="info-row" style="border-top: 1px dashed var(--border); border-bottom: none; margin-top: 5px; padding-top: 12px;">
+                    <span><i class="fa-solid fa-road-barrier"></i> แนวเวนคืน</span> 
+                    <strong id="propExprop" style="padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700;">-</strong>
+                </div>
+            </div>
+
+            <div class="sidebar-card text-center">
+                <h3 class="sidebar-title">ระดับความเสี่ยง (Risk Score)</h3>
+                <div class="risk-score-display" id="simRisk">-</div>
+            </div>
+
+            <div class="sidebar-card llm-chat-card">
+                <div class="chat-head"><i class="fa-solid fa-robot"></i> Ask AI Legal</div>
+                <div class="chat-body" id="chatArea"></div>
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="พิมพ์ถามข้อกฎหมาย...">
+                    <button onclick="askLLM()"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 </div>
 
